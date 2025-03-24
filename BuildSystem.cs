@@ -22,6 +22,7 @@ public class BuildSystem : MonoBehaviour
         {
             DestroyBlock();
         }
+        HighlightBlock();
 
     }
 
