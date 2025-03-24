@@ -8,6 +8,10 @@ public class BuildSystem : MonoBehaviour
     public Transform shootingPoint;
     public GameObject blockObject;
 
+    public Color normalColor;
+    public Color highlightedColor;
+    GameObject lastHighlightedBlock;
+
     private void Update()
     {
         if(Input.GetMouseButtonDown(0)) // if left-click, place block
@@ -53,6 +57,27 @@ public class BuildSystem : MonoBehaviour
             if (hitInfo.transform.tag == "Block")
             {
                 Destroy(hitInfo.transform.gameObject);
+            }
+        }
+    }
+
+    void HighlightBlcok()
+    {
+        if (Physics.Raycast(shootingPoint.position, shootingPoint.forward, out RaycastHit hitInfo))
+        {
+            if (hitInfo.transform.tag == "Block")
+            {
+                if (lastHighlight == null)
+                {
+                    lastHighlightedBlock = hitInfo.transform.gameObject;
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = highlightedColor;
+                }
+                if (lastHighlightedBlock != hitInfo.transform.gameObject)
+                {
+                    lastHighlightedBlock.GetComponent<Renderer>().material.color = normalColor;
+                    hitInfo.transform.gameObject.GetComponent<Renderer>().material.color = highlightedColor;
+                    lastHighlightedBlock = hitInfo.transform.gameObject;                                              
+                }
             }
         }
     }
